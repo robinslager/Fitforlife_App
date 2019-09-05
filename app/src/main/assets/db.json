@@ -1,0 +1,20 @@
+{
+  "Tables": [
+    {"Tablename": "Users",
+      "Columns": [
+        {"Colname": "ID", "Type": "INTEGER", "Action": "NN", "Default": ""},
+        {"Colname": "Klas_ID", "Type": "INTEGER", "Action": "NN", "Default": ""},
+        {"Colname": "Email", "Type": "TEXT", "Action": "NN", "Default": "" },
+        {"Colname": "Wachtwoord", "Type": "TEXT", "Action": "NN", "Default": "" },
+        {"Colname": "Voornaam", "Type": "TEXT", "Action": "NN", "Default": "" },
+        {"Colname": "Achternaam", "Type": "TEXT", "Action": "NN", "Default": "" },
+        {"Colname": "Profielfoto", "Type": "TEXT", "Action": "NN", "Default": "" },
+        {"Colname": "Rol", "Type": "INTEGER", "Action": "", "Default": "1" },
+        {"Colname": "Account_Verwijderd", "Type": "INTEGER", "Action": "", "Default": "0" },
+        {"Colname": "Wachtwoord_Wijzig", "Type": "INTEGER", "Action": "", "Default": "1" }
+      ]
+    }
+  ],
+  "preview": {"Colname": "", "Type": "", "Action": "", "Default": ""},
+  "_coment": "use this format for every table WATCH OUT ITS CASE SENSETIVE!!!!"
+}
