@@ -1,20 +1,27 @@
 package com.example.user.fit4life.login;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.user.fit4life.R;
+import com.example.user.fit4life.SQL_Database.SQLdatabase;
 
+import java.util.Date;
 import java.util.Objects;
+
+import static com.example.user.fit4life.Functions.functions.persistDate;
 
 public class Login extends AppCompatActivity {
     private Button loginbtn;
     private EditText passfield, emailfield;
     private Context context = this;
+    private SQLdatabase db;
 
 
     @Override
@@ -34,13 +41,18 @@ public class Login extends AppCompatActivity {
         passfield = findViewById(R.id.login_password);
         emailfield = findViewById(R.id.login_email);
         loginbtn.setOnClickListener(loginevnt);
+
+        db = new SQLdatabase(this.context);
+
+
+
     }
 
     private View.OnClickListener loginevnt = new View.OnClickListener() {
         public void onClick(View v) {
             String email = emailfield.getText().toString();
             String pass = passfield.getText().toString();
-            login_backend login = new login_backend(context, pass);
+            login_backend login = new login_backend(context, pass, db);
 
 
             if (email.isEmpty() || pass.isEmpty()) {
@@ -63,10 +75,6 @@ public class Login extends AppCompatActivity {
 
 
     };
-
-
-
-
 }
 
 

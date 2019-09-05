@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Toast;
+import com.example.user.fit4life.R;
 import com.example.user.fit4life.Settings;
 import org.json.JSONException;
 
@@ -26,20 +27,22 @@ public class Errorhandling extends AsyncTask<String, Void, String> {
     private JSONException error_json = null;
     private String current_err;
     private Settings settings;
+    Context context;
 
 
-    public Errorhandling(IOException err_io, Throwable err_trow, String err_info, JSONException error_json) {
+    public Errorhandling(Context context, IOException err_io, Throwable err_trow, String err_info, JSONException error_json) {
         this.err_io = err_io;
         this.err_trow = err_trow;
         this.err_info = err_info;
         this.error_json = error_json;
-        Context context;
+        this.context = context;
         settings = new Settings();
 
     }
 
     @Override
     protected void onPreExecute() {
+        Toast.makeText(context, R.string.system_error, Toast.LENGTH_LONG).show();
     }
 
     @Override

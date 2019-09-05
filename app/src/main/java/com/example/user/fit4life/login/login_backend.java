@@ -13,7 +13,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.user.fit4life.Functions.Errorhandling;
 import com.example.user.fit4life.Functions.background_httprequest;
 import com.example.user.fit4life.Objects.Active_user;
-import com.example.user.fit4life.R;
+
 import com.example.user.fit4life.SQL_Database.SQLdatabase;
 import com.example.user.fit4life.SQL_Database.SyncDB;
 import com.example.user.fit4life.Settings;
@@ -29,7 +29,7 @@ public class login_backend extends AsyncTask<String ,Void,String> {
     private Context context;
     private AlertDialog dialog;
     private SQLdatabase db;
-    private String pass;
+    private String password;
     private Boolean login = false;
     private Boolean logintype;
     private Settings settings;
@@ -39,21 +39,34 @@ public class login_backend extends AsyncTask<String ,Void,String> {
     private SyncDB sync;
     public volatile static boolean DBcomplete = false;
 
-    public login_backend(Context context, String password) {
+
+
+    public login_backend(Context context, String password, SQLdatabase db) {
         this.context = context;
-        db = new SQLdatabase(this.context);
-        pass = password;
+        this.db = db;
+        this.password = password;
         settings = new Settings();
     }
     @Override
     protected void onPreExecute() {
+        // creates dialog.
         dialog = new AlertDialog.Builder(context).create();
         dialog.setTitle("login Status");
 
     }
 
+    /**
+     *
+     * @param s is result of function doinbackground gives
+     * is a json object in string format
+     *
+     *          it checks if you have connection
+     *          if conection is avail able it checks if
+     */
     @Override
     protected void onPostExecute(String s) {
+
+
         JSONObject json;
             // transforms string to JSON format
 
@@ -68,11 +81,8 @@ public class login_backend extends AsyncTask<String ,Void,String> {
                 // set check true for later.
                 online_L_Status_handler(json);
             } catch (JSONException e) {
-
-                Errorhandling errorhandling = new Errorhandling(null, null, null, e);
+                Errorhandling errorhandling = new Errorhandling(context, null, null, null, e);
                 errorhandling.execute();
-                Toast.makeText(context, R.string.system_error, Toast.LENGTH_LONG).show();
-
             }
         } else {
             // no connection go on with offline DBcheck!
@@ -131,26 +141,25 @@ public class login_backend extends AsyncTask<String ,Void,String> {
                     }
 
                 } else {
+
                 }
                 // user id is string from json.
-
                 userID = Integer.parseInt(json.getString("userID"));
-
-
                 // catch is needed but its unpractical ^ onpostexec will do this already.
             } catch (JSONException e) {
-                Errorhandling errorhandling = new Errorhandling(null, null, null, e);
+                Errorhandling errorhandling = new Errorhandling(context,null, null, null, e);
                 errorhandling.execute();
-                Toast.makeText(context, R.string.system_error, Toast.LENGTH_LONG).show();
             }
+
     }
     private void offline_L_Status_handler(){
         logintype = false;
         if(db.getpass() != null) {
-            BCrypt.Result result = BCrypt.verifyer().verify(pass.toCharArray(), db.getpass().toCharArray());
+            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), db.getpass().toCharArray());
             if(result.verified) {
                 login = true;
                 userID = db.getuserID();
+                result = null;
             }
         }
     }

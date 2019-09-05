@@ -2,8 +2,6 @@ package com.example.user.fit4life.Functions;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-import com.example.user.fit4life.R;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -20,6 +18,18 @@ public class background_httprequest {
     private ArrayList<String> varname;
     private Context context;
 
+    /**
+     * @param urlweb url to conecting Website
+     *
+     * @param method method is the type of request it needs to handle POST or GET
+     *
+     * @param varname php Key var is a arraylist so it can loop through.
+     *
+     * @param var php Value var is a arraylist so it can loop through.
+     *
+     * @param context Context is for the toast message that gives user idea that aa error occurred.
+     *
+     */
     public background_httprequest(String urlweb, String method, ArrayList<String> varname, ArrayList<String> var, Context context) {
 
         this.urlweb = urlweb;
@@ -35,26 +45,26 @@ public class background_httprequest {
         this.context = context;
 
     }
-    // this function is a separate function because of multiple uses.
-    // now if i need t use it again it takes less time.
-    // can always be changed later.
+
+    /**
+     * Desc:
+     * checks if al given info given from costructor ar right
+     * makes http request to given url.
+     *
+     * if something goes wrong it goes to ErrorHandler.
+     * @return StringBuilder/ the result of the request.
+     */
 
     public StringBuilder connect() {
-
-
-
-
 // result is for the return.
         StringBuilder result = new StringBuilder();
 
 // data is for sending data
         StringBuilder data = new StringBuilder();
-
-
         try {
 
             // checks if all info isset.
-            if ((var.size() == varname.size() && var.size() != 0) && method != null && urlweb != null) {
+            if ((var.size() == varname.size()) && method != null && urlweb != null) {
 
                 // makes connection and set ruled for connection.
                 URL url = new URL(urlweb);
@@ -67,12 +77,14 @@ public class background_httprequest {
                 // writer in this case writes the post request and sends it.
                 OutputStream ops = http.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ops, StandardCharsets.UTF_8));
-                for (int i = 0; i < var.size(); i++) {
+                if(var.size() != 0) {
+                    for (int i = 0; i < var.size(); i++) {
 
-                    if (i < var.size() - 1) {
-                        data.append(URLEncoder.encode(varname.get(i), "UTF-8")).append("=").append(URLEncoder.encode(var.get(i), "UTF-8")).append("&&");
-                    } else {
-                        data.append(URLEncoder.encode(varname.get(i), "UTF-8")).append("=").append(URLEncoder.encode(var.get(i), "UTF-8"));
+                        if (i < var.size() - 1) {
+                            data.append(URLEncoder.encode(varname.get(i), "UTF-8")).append("=").append(URLEncoder.encode(var.get(i), "UTF-8")).append("&&");
+                        } else {
+                            data.append(URLEncoder.encode(varname.get(i), "UTF-8")).append("=").append(URLEncoder.encode(var.get(i), "UTF-8"));
+                        }
                     }
                 }
 
@@ -99,15 +111,16 @@ public class background_httprequest {
                 // closes everything inclouding the hole connection.
 
             } else {
+//                Throwable t = "Background_httprequest: Connection failer no provided information";
                 //todo exeption info not set!
+                new Errorhandling(context, null, null, context.getClass().toString(), null);
                 Log.e("SOME", "connect: Wrong");
 
             }
             // if something goes wrong error messege
         } catch (IOException e) {
-            Errorhandling errorhandling = new Errorhandling(e, null, null, null);
+            Errorhandling errorhandling = new Errorhandling(context, e, null, null, null);
             errorhandling.execute();
-            Toast.makeText(context, R.string.system_error, Toast.LENGTH_LONG).show();
         }
 
         // returns result will get caught by onPostexecution.

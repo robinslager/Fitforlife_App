@@ -61,7 +61,7 @@ public class Homescreen extends AppCompatActivity
 
         // Active_user / some usefull info
         int IDuser = getIntent().getIntExtra("UserID", 0);
-        activeUser = DB.getuser(IDuser);
+//        activeUser = DB.getuser(IDuser);
 
         /*
         navigagiation byusing fraqments

@@ -8,11 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
-import com.example.user.fit4life.R;
+import com.example.user.fit4life.*;
 import com.example.user.fit4life.main.Food.food_cal_eat_fraq;
 import com.example.user.fit4life.main.Food.food_fraq;
 import com.example.user.fit4life.main.home.home_fraq;
 import com.example.user.fit4life.main.tasks.Tasks_fraq;
+
+import java.util.Date;
 
 public class functions {
 
@@ -62,6 +64,12 @@ public class functions {
 
         DrawerLayout drawer = activity.findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+    public static Long persistDate(Date date) {
+        if (date != null) {
+            return date.getTime();
+        }
+        return null;
     }
 
 }

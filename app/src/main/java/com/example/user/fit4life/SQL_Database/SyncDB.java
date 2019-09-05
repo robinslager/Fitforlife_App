@@ -1,7 +1,9 @@
 package com.example.user.fit4life.SQL_Database;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.example.user.fit4life.Functions.background_httprequest;
@@ -13,9 +15,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class SyncDB extends AsyncTask<String ,Void,String>  {
+    private static final String TAG = "a";
     private SQLdatabase db;
     private String Syncmethod;
     private String Action;
@@ -63,25 +67,33 @@ public class SyncDB extends AsyncTask<String ,Void,String>  {
             data = new JSONObject(s);
             JSONArray users = data.getJSONArray("users");
             Log.d("array", data.toString());
-            String[] userdata = new String[13];
+
+            ContentValues cv = new ContentValues();
             JSONObject user = users.getJSONObject(0);
 
-            userdata[0] = user.getString("ID");
-            userdata[1] = user.getString("klas_ID");
-            userdata[2] = user.getString("email");
-            userdata[3] = user.getString("password");
-            userdata[4] = user.getString("voornaam");
-            userdata[5] = user.getString("achternaam");
-            userdata[6] = user.getString("leerlingnummer");
-            userdata[7] = user.getString("opleiding");
-            userdata[8] = user.getString("rol");
-            userdata[9] = user.getString("verwijderd");
-            userdata[10] = user.getString("verwijderd_datum");
-            userdata[11] = user.getString("wachtwoord_veranderen_bij_login");
-            userdata[12] = user.getString("profielafbeelding");
+            cv.put("ID", user.getInt("ID"));
+            cv.put("Klas_ID", user.getInt("klas_ID"));
+            cv.put("Email", user.getString("email"));
+            cv.put("Wachtwoord", user.getString("password"));
+            cv.put("Voornaam", user.getString("voornaam"));
+            cv.put("Achternaam", user.getString("achternaam"));
+            cv.put("Profielfoto", user.getString("profielafbeelding"));
+            cv.put("Rol", user.getInt("rol"));
+//            cv.put("Account_Verwijderd", user.getString("verwijderd"));
+            cv.put("Wachtwoord_Wijzig", user.getInt("wachtwoord_veranderen_bij_login"));
+            try {
+                db.insertdata("Users", cv);
+            }
+            catch (Throwable t){
 
-            db.insertdata("user", userdata);
-            int Userid = Integer.parseInt(user.getString("ID"));
+            }
+//            if(rowInserted != -1) {
+////Insert success.
+//            } else {
+////Inser failed.
+//            }
+
+
 
         } catch (JSONException e) {
             Log.e("My App", "Could not parse malformed JSON: \"" + s + "\"");
