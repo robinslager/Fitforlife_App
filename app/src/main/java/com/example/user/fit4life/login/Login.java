@@ -1,21 +1,16 @@
 package com.example.user.fit4life.login;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.user.fit4life.R;
 import com.example.user.fit4life.SQL_Database.SQLdatabase;
 
-import java.util.Date;
 import java.util.Objects;
-
-import static com.example.user.fit4life.Functions.functions.persistDate;
 
 public class Login extends AppCompatActivity {
     private Button loginbtn;

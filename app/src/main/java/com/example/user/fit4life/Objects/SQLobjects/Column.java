@@ -1,10 +1,6 @@
 package com.example.user.fit4life.Objects.SQLobjects;
 
-import android.util.Log;
-
 import java.util.Objects;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class Column {
     private String Column_name;

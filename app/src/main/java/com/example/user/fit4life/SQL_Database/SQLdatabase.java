@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import com.example.user.fit4life.Objects.Active_user;
+
 import java.io.File;
 
-
 import static android.content.ContentValues.TAG;
+
+//import com.example.user.fit4life.Objects.Active_user;
 
 
 public class SQLdatabase extends SQLiteOpenHelper {

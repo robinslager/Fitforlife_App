@@ -2,19 +2,15 @@ package com.example.user.fit4life.Functions;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.Toast;
 import com.example.user.fit4life.R;
 import com.example.user.fit4life.Settings;
 import org.json.JSONException;
 
 import java.io.*;
-
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 

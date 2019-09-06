@@ -10,6 +10,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import static android.support.constraint.Constraints.TAG;
+
 public class background_httprequest {
 
     private final String urlweb;
@@ -86,6 +88,7 @@ public class background_httprequest {
                             data.append(URLEncoder.encode(varname.get(i), "UTF-8")).append("=").append(URLEncoder.encode(var.get(i), "UTF-8"));
                         }
                     }
+
                 }
 
                 // writes all data and sends it also closes all open objects.
@@ -107,6 +110,7 @@ public class background_httprequest {
                 reader.close();
                 ips.close();
                 http.disconnect();
+                Log.d(TAG, "connect: completed");
 
                 // closes everything inclouding the hole connection.
 
@@ -121,6 +125,7 @@ public class background_httprequest {
         } catch (IOException e) {
             Errorhandling errorhandling = new Errorhandling(context, e, null, null, null);
             errorhandling.execute();
+            Log.e("SOME", "connect: Wrong");
         }
 
         // returns result will get caught by onPostexecution.

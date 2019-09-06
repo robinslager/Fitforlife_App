@@ -4,6 +4,7 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-v4-28.0.0.aar/a11f237d96b75f17f4d725165c83c42d/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-v4-28.0.0.aar/a11f237d96b75f17f4d725165c83c42d/jars/classes.jar!/" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

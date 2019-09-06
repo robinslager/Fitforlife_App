@@ -8,12 +8,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.user.fit4life.Functions.Errorhandling;
 import com.example.user.fit4life.Functions.background_httprequest;
 import com.example.user.fit4life.Objects.Active_user;
-
+import com.example.user.fit4life.SQL_Database.Database_create_helper;
 import com.example.user.fit4life.SQL_Database.SQLdatabase;
 import com.example.user.fit4life.SQL_Database.SyncDB;
 import com.example.user.fit4life.Settings;
@@ -150,6 +149,7 @@ public class login_backend extends AsyncTask<String ,Void,String> {
                 Errorhandling errorhandling = new Errorhandling(context,null, null, null, e);
                 errorhandling.execute();
             }
+            new Database_create_helper(context, db, db.getReadableDatabase(), db.getWritableDatabase()).refresh_db_jsonfile();
 
     }
     private void offline_L_Status_handler(){

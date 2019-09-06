@@ -1,14 +1,12 @@
 package com.example.user.fit4life.Functions;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-
-import com.example.user.fit4life.*;
+import com.example.user.fit4life.R;
 import com.example.user.fit4life.main.Food.food_cal_eat_fraq;
 import com.example.user.fit4life.main.Food.food_fraq;
 import com.example.user.fit4life.main.home.home_fraq;

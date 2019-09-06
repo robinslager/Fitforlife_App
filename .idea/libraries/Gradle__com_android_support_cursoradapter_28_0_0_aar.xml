@@ -4,6 +4,7 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/a67d42de534372d3981386d0b6818b01/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/a67d42de534372d3981386d0b6818b01/res" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

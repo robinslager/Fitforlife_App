@@ -1,26 +1,23 @@
 package com.example.user.fit4life.main;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.util.Base64;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Context;
-import android.content.Intent;
+import android.view.View;
 import com.example.user.fit4life.Functions.functions;
 import com.example.user.fit4life.Objects.Active_user;
 import com.example.user.fit4life.R;
-import android.support.v7.app.AlertDialog;
 import com.example.user.fit4life.SQL_Database.SQLdatabase;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 
 public class Homescreen extends AppCompatActivity

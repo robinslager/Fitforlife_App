@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
-import com.example.user.fit4life.Functions.background_httprequest;
 import com.example.user.fit4life.Objects.SQLobjects.Column;
 import com.example.user.fit4life.Objects.SQLobjects.SqlRow;
 import com.example.user.fit4life.Objects.SQLobjects.TableData;
@@ -197,7 +195,7 @@ public class Database_create_helper {
                     cv.put("Current", 1);
                     db.insertdata("Migrate", cv);
 
-                    writeabledb.execSQL("UPDATE Migration SET Current = 0 WHERE Version = " + versionresult);
+                    writeabledb.execSQL("UPDATE Migrate SET Current = 0 WHERE Version = " + versionresult);
 
                     return true;
                 }
@@ -292,7 +290,7 @@ public class Database_create_helper {
                         JSONArray Columns = Table.getJSONArray("Columns");
                         // if json file has been changed. we check which tables are diffrent looking only at collumns.
                         // if there is a chancge in collumns part we want to save all data of that table
-                        result = db.Query("SELECT * FROM TABLES WHERE Table_Name = " + TABLE_NAME);
+                        result = db.Query("SELECT * FROM TABLES WHERE Table_Name = '" + TABLE_NAME + "'");
                         // if result is 0 table does not exist what means its a new table.
                         if (result.getCount() != 0) {
                             result.moveToFirst();
@@ -441,37 +439,15 @@ public class Database_create_helper {
         String httpURL = new Settings().getBaseServerUrl() + "index.php?DW=getfile";
         ArrayList<String> var = new ArrayList<>();
         ArrayList<String> varname = new ArrayList<>();
-        String result = new background_httprequest(httpURL, "POST", varname, var, context).connect().toString();
+        SyncDB syncDB = new SyncDB(context, "getfile", "POST", "0", db);
+        syncDB.execute();
+
         //todo write new dbjson file.  and check if if it is different
-        write_db_file(result);
+
         checkDBchanges();
 
 
     }
 
-    public void write_db_file(String json) {
-        File directory = new File(context.getFilesDir()+File.separator+"files");
 
-        if(!directory.exists())
-            directory.mkdir();
-
-        File newFile = new File(directory, "db.json");
-
-        if(!newFile.exists()){
-            try {
-                newFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try  {
-            FileOutputStream fOut = new FileOutputStream(newFile);
-            OutputStreamWriter outputWriter=new OutputStreamWriter(fOut);
-            outputWriter.write(json);
-            outputWriter.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 }

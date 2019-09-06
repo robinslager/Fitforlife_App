@@ -1,8 +1,9 @@
 <component name="libraryTable">
-  <library name="Gradle: __local_aars__:C.\Users\User\git\Fit4Life\Android\app\libs\bcrypt-0.8.0-optimized.jar:unspecified@jar">
+  <library name="Gradle: __local_aars__:C.\Users\User\git\Fitforlife_App\app\libs\bcrypt-0.8.0-optimized.jar:unspecified@jar">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/app/libs/bcrypt-0.8.0-optimized.jar!/" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

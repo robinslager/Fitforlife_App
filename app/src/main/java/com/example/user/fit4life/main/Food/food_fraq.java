@@ -3,7 +3,6 @@ package com.example.user.fit4life.main.Food;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.view.*;
 import android.widget.Button;
 import com.example.user.fit4life.Functions.functions;
 import com.example.user.fit4life.R;
-import com.example.user.fit4life.main.Homescreen;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -21,8 +19,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class food_fraq extends Fragment {
