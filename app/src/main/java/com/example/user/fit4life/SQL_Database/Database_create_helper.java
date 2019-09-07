@@ -114,15 +114,15 @@ public class Database_create_helper {
     // reads json file and returs json object
     private String loadJSONFromAsset(Context context) {
         String json = "";
-        File directory = new File(context.getFilesDir()+File.separator+"files");
+        File directory = new File(context.getFilesDir() + File.separator + "files");
 
-        if(!directory.exists()) {
+        if (!directory.exists()) {
             directory.mkdir();
         }
 
         File newFile = new File(directory, "db.json");
 
-        if(!newFile.exists()){
+        if (!newFile.exists()) {
             try {
                 InputStream is = context.getAssets().open("db.json");
 
@@ -154,7 +154,7 @@ public class Database_create_helper {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -282,6 +282,9 @@ public class Database_create_helper {
                 // tablecheck returns true if json file has changed.
                 if (Tablecheck) {
                     JSONArray tables = Tablesobject.getJSONArray("Tables");
+                    delete_not_needed_tables(result, tables);
+
+
                     // Loop through all tables in TABLES table.
                     for (int i = 0; i < tables.length(); i++) {
                         ArrayList<SqlRow> rows = new ArrayList<>();
@@ -296,12 +299,14 @@ public class Database_create_helper {
                             result.moveToFirst();
                             String columnresult = result.getString(1);
                             if (!columnresult.equals(Columns.toString())) {
+
                                 // if collumns are not equal diffrence in db has been made
                                 // so we save old Table name and all old collumnnames for data transfer.
                                 // and all data from that table
                                 rows = getTabledata(TABLE_NAME);
                                 tableData.add(new TableData(rows, Table, TABLE_NAME));
                                 writeabledb.execSQL(new StringBuilder().append("DROP TABLE IF EXISTS ").append(TABLE_NAME).toString());
+                                writeabledb.execSQL("DELETE FROM TABLES WHERE Table_Name = '" + TABLE_NAME + "'");
                                 // execute create table part
                             }
                         } else {
@@ -441,13 +446,33 @@ public class Database_create_helper {
         ArrayList<String> varname = new ArrayList<>();
         SyncDB syncDB = new SyncDB(context, "getfile", "POST", "0", db);
         syncDB.execute();
-
-        //todo write new dbjson file.  and check if if it is different
-
         checkDBchanges();
-
-
     }
 
+    private void delete_not_needed_tables(Cursor result, JSONArray tables) {
+        result.moveToFirst();
+        String Table_Name;
+        JSONObject Table = null;
+        boolean table_init;
+        for (int i = 0; i < result.getCount(); i++) {
+            table_init = false;
+            Table_Name = result.getString(0);
+            try {
+                for (int j = 0; j < tables.length(); j++) {
+                    Table = tables.getJSONObject(j);
+                    if (Table.getString("Tablename").equals(Table_Name)) {
+                        table_init = true;
+                    }
 
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if(table_init == false){
+                writeabledb.execSQL("DROP TABLE IF EXISTS " + Table_Name);
+                writeabledb.execSQL("DELETE FROM TABLES WHERE Table_Name = '" + Table_Name + "'");
+            }
+            result.moveToNext();
+        }
+    }
 }
