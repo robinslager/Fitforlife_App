@@ -277,6 +277,7 @@ public class Database_create_helper {
         } else {
             try {
                 // reads json file and checks for diffrences
+                Log.e(TAG, "checkDBchanges: " + loadJSONFromAsset(context));
                 JSONObject Tablesobject = new JSONObject(loadJSONFromAsset(context));
                 boolean Tablecheck = Extract_Json_file_to_migrate(Tablesobject);
                 // tablecheck returns true if json file has changed.
@@ -444,8 +445,7 @@ public class Database_create_helper {
         String httpURL = new Settings().getBaseServerUrl() + "index.php?DW=getfile";
         ArrayList<String> var = new ArrayList<>();
         ArrayList<String> varname = new ArrayList<>();
-        SyncDB syncDB = new SyncDB(context, "getfile", "POST", "0", db);
-        syncDB.execute();
+        SyncDB syncDB = new SyncDB(context, "getfile", "0", db);
         checkDBchanges();
     }
 

@@ -3,9 +3,8 @@ package com.example.user.fit4life.SQL_Database;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import com.example.user.fit4life.Functions.background_httprequest;
+import com.example.user.fit4life.API.API_Interface;
 import com.example.user.fit4life.Settings;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,10 +14,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 
 
-public class SyncDB extends AsyncTask<String ,Void,String>  {
+public class SyncDB  {
     private static final String TAG = "a";
     private SQLdatabase db;
     private String Syncmethod;
@@ -27,67 +25,49 @@ public class SyncDB extends AsyncTask<String ,Void,String>  {
     @SuppressLint("StaticFieldLeak")
     private Context context;
     private Settings settings;
-    private String result;
+    private API_Interface API;
 
 
 
-    public SyncDB(Context context, String syncmethod, String action, String userID, SQLdatabase dbs) {
+    public SyncDB(Context context, String syncmethod, String userID, SQLdatabase dbs) {
         Syncmethod = syncmethod;
-        Action = action;
+
         UserID = userID;
         this.context = context;
         db = dbs;
         settings = new Settings();
+        API = new API_Interface(context);
     }
 
-    @Override
-    protected void onPreExecute() {
-
-    }
-
-
-
-    @Override
-    protected String doInBackground(String... voids) {
-        String httpURL;
-        ArrayList<String> varname = new ArrayList<>();
-        ArrayList<String> var = new ArrayList<>();
-        String resultrequest = "";
+    private void startsync(){
+        String result = "";
+        String[] data = new String[5];
         switch (Syncmethod) {
             case "F_login":
-                httpURL = settings.getBaseServerUrl() + "index.php?DW=" + Syncmethod;
-                varname.add("user");
-                var.add(UserID);
-                resultrequest = new background_httprequest(httpURL, Action, varname, var, context).connect().toString();
+                data[0] = UserID;
+                result = API.All_Data_retrieve(data);
                 break;
             case "getfile":
-                httpURL = settings.getBaseServerUrl() + "index.php?DW=" + Syncmethod;
-                varname.add("filename");
-                var.add("db.json");
-                resultrequest = new background_httprequest(httpURL, Action, varname, var, context).connect().toString();
+                result = API.get_db_file(data);
                 break;
             default:
-
                 break;
         }
-        return resultrequest;
+        continiuesync(Syncmethod, result);
+
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        switch (Syncmethod){
+    private void continiuesync(String Syncmeth, String res){
+        switch (Syncmeth){
             case "F_login":
-                F_login(s);
+                F_login(res);
                 break;
             case "getfile":
-                write_db_file(s);
+                write_db_file(res);
                 break;
         }
     }
 
-    public String getResult() {
-        return result;
-    }
 
     public void F_login(String result){
         JSONObject data;

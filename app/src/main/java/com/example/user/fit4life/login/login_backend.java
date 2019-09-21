@@ -6,11 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.example.user.fit4life.API.API_Interface;
 import com.example.user.fit4life.Functions.Errorhandling;
-import com.example.user.fit4life.Functions.background_httprequest;
 import com.example.user.fit4life.Objects.Active_user;
 import com.example.user.fit4life.SQL_Database.Database_create_helper;
 import com.example.user.fit4life.SQL_Database.SQLdatabase;
@@ -20,9 +19,7 @@ import com.example.user.fit4life.main.Homescreen;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-public class login_backend extends AsyncTask<String ,Void,String> {
+public class login_backend{
 
 
     private Context context;
@@ -37,6 +34,7 @@ public class login_backend extends AsyncTask<String ,Void,String> {
     private Active_user activeUser;
     private SyncDB sync;
     public volatile static boolean DBcomplete = false;
+    private API_Interface API;
 
 
 
@@ -45,34 +43,29 @@ public class login_backend extends AsyncTask<String ,Void,String> {
         this.db = db;
         this.password = password;
         settings = new Settings();
-    }
-    @Override
-    protected void onPreExecute() {
-        // creates dialog.
-        dialog = new AlertDialog.Builder(context).create();
-        dialog.setTitle("login Status");
-
+        API = new API_Interface(context);
     }
 
-    /**
-     *
-     * @param s is result of function doinbackground gives
-     * is a json object in string format
-     *
-     *          it checks if you have connection
-     *          if conection is avail able it checks if
-     */
-    @Override
-    protected void onPostExecute(String s) {
+    public void Apirequest(String[] data){
+        if (isNetworkAvailable()) {
+            checkapiresult(API.login(data));
+        } else {
+            // no connection go on with offline DBcheck!
+            offline_L_Status_handler();
+        }
+        // complete login go to home screen.
+        logincomplete(logintype, userID, login, Fsync, dialog);
+    }
 
 
+    private void checkapiresult(String result){
         JSONObject json;
-            // transforms string to JSON format
+        // transforms string to JSON format
 
-        // s is only null if no connection!
-        if(s != null) {
+        // result is only null if no something went wrong
+        if(result != null) {
             try {
-                json = new JSONObject(s);
+                json = new JSONObject(result);
 
                 // logs JSON check if works
                 Log.d("All Products: ", json.toString());
@@ -83,43 +76,11 @@ public class login_backend extends AsyncTask<String ,Void,String> {
                 Errorhandling errorhandling = new Errorhandling(context, null, null, null, e);
                 errorhandling.execute();
             }
-        } else {
-            // no connection go on with offline DBcheck!
-            offline_L_Status_handler();
         }
-        // complete login go to home screen.
-        logincomplete(logintype, userID, login, Fsync, dialog);
     }
 
-    // post login info
-    @Override
-    protected String doInBackground(String... voids) {
-        // make strings data for post request.
 
-        //  checks for connection.
-        if (isNetworkAvailable()) {
 
-            String email = voids[0];
-            String password = voids[1];
-
-            ArrayList<String> varname = new ArrayList<>();
-            varname.add("email");
-            varname.add("password");
-            ArrayList<String> var = new ArrayList<>();
-            var.add(email);
-            var.add(password);
-            // post url
-
-            String httpURL = settings.getBaseServerUrl() +  "/login.php";
-            // post method
-            background_httprequest http = new background_httprequest(httpURL, "POST", varname, var, context);
-            // return result.
-            return http.connect().toString();
-        } else {
-            return null;
-        }
-
-    }
     private void online_L_Status_handler(JSONObject json){
         logintype = true;
             try {
@@ -131,12 +92,8 @@ public class login_backend extends AsyncTask<String ,Void,String> {
                     login = true;
                     Fsync = true;
                     if (flogin == 1) {
-
-                        // if first login sync local DB.
-                        sync = new SyncDB(this.context, "F_login", "POST", json.getString("userID"), db);
-                        // userID + syncway
-                        sync.execute();
-
+                        // is a function that wil sync database values with current local db.
+                        new SyncDB(this.context, "F_login", json.getString("userID"), db);
                     }
 
                 } else {

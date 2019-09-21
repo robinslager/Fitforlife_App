@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
 
     private View.OnClickListener loginevnt = new View.OnClickListener() {
         public void onClick(View v) {
+            String[] data = new String[2];
             String email = emailfield.getText().toString();
             String pass = passfield.getText().toString();
             login_backend login = new login_backend(context, pass, db);
@@ -62,7 +63,9 @@ public class Login extends AppCompatActivity {
                     passfield.setHint("please insert password");
                 }
             } else {
-                    login.execute(email, pass);
+                data[0] = email;
+                data[1] = pass;
+                login.Apirequest(data);
             }
         }
 
