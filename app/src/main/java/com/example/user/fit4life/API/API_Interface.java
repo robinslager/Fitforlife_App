@@ -27,7 +27,7 @@ public class API_Interface extends ApiBase {
         return result;
     }
 
-    public String get_db_file(String[] Values){
+    public String get_db_file(){
         String result = "";
         String[] Keys = new String[1];
         result = this.connect(context, null, null, "getfile");
