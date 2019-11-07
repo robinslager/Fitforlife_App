@@ -48,7 +48,7 @@ public class SyncDB  {
                 result = API.All_Data_retrieve(data);
                 break;
             case "getfile":
-                result = API.get_db_file(data);
+                result = API.get_db_file();
                 break;
             default:
                 break;

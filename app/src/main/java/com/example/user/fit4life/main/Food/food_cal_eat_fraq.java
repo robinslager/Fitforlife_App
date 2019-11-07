@@ -1,13 +1,13 @@
 package com.example.user.fit4life.main.Food;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import com.example.user.fit4life.R;
 
 public class food_cal_eat_fraq extends Fragment {

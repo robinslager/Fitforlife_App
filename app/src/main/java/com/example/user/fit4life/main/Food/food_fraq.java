@@ -5,11 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.Button;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import com.example.user.fit4life.Functions.functions;
 import com.example.user.fit4life.R;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,6 +18,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
